@@ -1,0 +1,1 @@
+//store the result object in the mongo database. use both values within it and store them on the same line
