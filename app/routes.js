@@ -1,21 +1,26 @@
 // app/routes.js
+
+var path = require("path");
+
 module.exports = function(app, passport) {
 
 	// =====================================
 	// HOME PAGE (with login links) ========
 	// =====================================
 	app.get('/', function(req, res) {
-		res.render('index.ejs'); // load the index.ejs file
+		res.sendfile(path.join(__dirname + '/../public/index.html')); // load the index file
 	});
+
 
 	// =====================================
 	// LOGIN ===============================
 	// =====================================
 	// show the login form
 	app.get('/login', function(req, res) {
+		res.sendfile(path.join(__dirname + '/../public/login.html'));
 
 		// render the page and pass in any flash data if it exists
-		res.render('login.ejs', { message: req.flash('loginMessage') });
+	
 	});
 
 	// process the login form
@@ -32,7 +37,7 @@ module.exports = function(app, passport) {
 	app.get('/signup', function(req, res) {
 
 		// render the page and pass in any flash data if it exists
-		res.render('signup.ejs', { message: req.flash('signupMessage') });
+		res.render('public/signup.html', { message: req.flash('signupMessage') });
 	});
 
 	// process the signup form
@@ -48,9 +53,8 @@ module.exports = function(app, passport) {
 	// we will want this protected so you have to be logged in to visit
 	// we will use route middleware to verify this (the isLoggedIn function)
 	app.get('/profile', isLoggedIn, function(req, res) {
-		res.render('profile.ejs', {
-			user : req.user // get the user out of session and pass to template
-		});
+		res.sendfile(path.join(__dirname + '/../public/home.html'));
+
 	});
 
 	// =====================================

@@ -1,52 +1,45 @@
-/* Scraper: Server #1  (18.2.1)
- * ========================= */
+// server.js
 
-// Dependencies:
+// set up ======================================================================
+// get all the tools we need
+var express  = require('express');
+var app      = express();
+var port     = process.env.PORT || 8080;
+var mongoose = require('mongoose');
+var passport = require('passport');
+var flash    = require('connect-flash');
+var bodyParser = require("body-parser");
 
-// Snatches HTML from URLs
-var request = require("request");
-// Scrapes our HTML
-var cheerio = require("cheerio");
+// var configDB = require('./config/database.js');
+
+// configuration ===============================================================
+mongoose.connect("mongodb://heroku_tthbc9rj:am4h70q0bauhhhjmb439jurchq@ds155411.mlab.com:55411/heroku_tthbc9rj"); // connect to our database
+
+require('./config/passport')(passport); // pass passport for configuration
 
 
-// First, tell the console what server.js is doing
-console.log("\n***********************************\n" +
-            "Grabbing every thread name and link\n" +
-            "from reddit's webdev board:" +
-            "\n***********************************\n");
+
+	// set up our express application
+
+	app.use(express.cookieParser()); // read cookies (needed for auth)
+	// app.use(express.bodyParser()); // get information from html forms
+	// app.engine("html", require("ejs").renderFile)
+	// app.set('engine', 'html'); // set up ejs for templating
+	app.use(bodyParser.urlencoded({ extended: false }));
+	app.use(bodyParser.json());
+	app.use(express.static(__dirname + 'public'));
+
+	// required for passport
+	app.use(express.session({ secret: 'Kwaku' })); // session secret
+	app.use(passport.initialize());
+	app.use(passport.session()); // persistent login sessions
+	app.use(flash()); // use connect-flash for flash messages stored in session
 
 
-// Making a request call for reddit's "webdev" board. The page's HTML is saved as the callback's third argument
-request("https://www.reddit.com/r/webdev", function(error, response, html) {
 
-  // Load the HTML into cheerio and save it to a variable
-  // '$' becomes a shorthand for cheerio's selector commands, much like jQuery's '$'
-  var $ = cheerio.load(html);
+// routes ======================================================================
+require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 
-  // An empty array to save the data that we'll scrape
-  var result = [];
-
-  // With cheerio, find each p-tag with the "title" class
-  // (i: iterator. element: the current element)
-  $("p.title").each(function(i, element) {
-
-    // Save the text of the element (this) in a "title" variable. In this example the element is "this"
-    var title = $(this).text();
-
-    // In the currently selected element, look at its child elements (i.e., its a-tags),
-    // then save the values for any "href" attributes that the child elements may have
-
-   // *** //the below is unique syntax to Cheerio. wrapping the element object (which is this) and selecting
-    var link = $(element).children().attr("href");
-
-    // Save these results in an object that we'll push into the result array we defined earlier
-    result.push({
-      title: title,
-      link: link
-    });
-
-  });
-
-  // Log the result once cheerio analyzes each of its selected elements
-  console.log(result);
-});
+// launch ======================================================================
+app.listen(port);
+console.log('The magic happens on port ' + port);
