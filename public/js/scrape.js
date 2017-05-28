@@ -1,7 +1,7 @@
 
 //function to scrape the latest and append to page. This will be linked to the onClick
 //of "#get-the-latest" button.
-
+var userEmail;
 
 $("#get-the-latest").on("click", scrapeLatest);
 
@@ -98,8 +98,34 @@ console.log(link);
 
 //userEmail must be defined for it to be used within the following api call
 
-
+console.log(userEmail)
 
 //api call
 
+ $.post("/save").then(function(data) {
+
+  // alternatively try passing them in
+   // $.post("/save", articleController.saveScrapedNews(userEmail, link)).then(function(data) {
+
+
+console.log("saved!");
+//end of save post request
+  });
+
+
+//end of save onClick
 })
+
+
+
+
+$("#view-my-saved").on("click", function(){
+
+  console.log(userEmail);
+
+});
+
+
+
+
+

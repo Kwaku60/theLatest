@@ -74,10 +74,9 @@ module.exports = function(passport) {
     }));
 
     // =========================================================================
-    // LOCAL LOGIN =============================================================
+    // LOGIN =============================================================
     // =========================================================================
-    // we are using named strategies since we have one for login and one for signup
-    // by default, if there was no name, it would just be called 'local'
+
 
     passport.use('local-login', new LocalStrategy({
         // by default, local strategy uses username and password, we will override with email
@@ -104,6 +103,12 @@ module.exports = function(passport) {
 
             // all is well, return successful user
             return done(null, user);
+
+            //take a look at user. reassign this value to a variable if you have it.
+            console.log(user);
+            console.log(user.local.email);
+            userEmail = user.local.email;
+
         });
 
     }));
