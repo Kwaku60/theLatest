@@ -1,4 +1,12 @@
 
+//function to scrape the latest and append to page. This will be linked to the onClick
+//of "#get-the-latest" button.
+
+
+$("#get-the-latest").on("click", scrapeLatest);
+
+function scrapeLatest(){
+
 
 // Dependencies:
 
@@ -39,13 +47,13 @@ request("https://www.reddit.com/r/webdev", function(error, response, html) {
     var link = $(element).children().attr("href");
 
     // Save these results in an object that we'll push into the result array we defined earlier
-    result.push({
-      title: title,
-      link: link
-    });
+    result.push(link);
 
   });
 
   // Log the result once cheerio analyzes each of its selected elements
   console.log(result);
 });
+
+
+};

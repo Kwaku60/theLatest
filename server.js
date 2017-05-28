@@ -39,6 +39,7 @@ require('./config/passport')(passport); // pass passport for configuration
 
 // routes ======================================================================
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
+require('./app/api-routes.js')(app, passport);
 
 // launch ======================================================================
 app.listen(port);

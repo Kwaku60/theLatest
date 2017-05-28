@@ -6,18 +6,16 @@ var Schema = mongoose.Schema;
 
 // Make ArticlesSchema a Schema
 var ArticleSchema = new Schema({
-  // name: a unique string
+
   name: {
     type: String,
     unique: true
   },
-  // interactions is an array that stores ObjectIds
-  // The ref property links these ObjectIds to the Book model
-  // This will let us populate the library with these books, rather than the ids,
-  // using Mongoose's populate method (See the routes in Server.js)
-  interaction: [{
+ 
+
+  comments: [{
     type: Schema.Types.ObjectId,
-    ref: "Interactions"
+    ref: "comments"
   }]
 });
 
