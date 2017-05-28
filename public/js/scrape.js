@@ -5,6 +5,8 @@
 
 $("#get-the-latest").on("click", scrapeLatest);
 
+
+
 function scrapeLatest(){
 
 
@@ -16,11 +18,7 @@ var request = require("request");
 var cheerio = require("cheerio");
 
 
-// First, tell the console what server.js is doing
-console.log("\n***********************************\n" +
-            "Grabbing every thread name and link\n" +
-            "from reddit's webdev board:" +
-            "\n***********************************\n");
+
 
 
 // Making a request call for reddit's "webdev" board. The page's HTML is saved as the callback's third argument
@@ -47,13 +45,61 @@ request("https://www.reddit.com/r/webdev", function(error, response, html) {
     var link = $(element).children().attr("href");
 
     // Save these results in an object that we'll push into the result array we defined earlier
-    result.push(link);
+   
+
+   //use the thumbnail api before appending this link 
+
+   var linkHold = $("<div>");
+   linkHold.addClass("link-hold");
+   linkHold.id = "link-hold-" + i;
+   linkHold.append(link);
+var save =$("<button>");
+save.text = "Save me!";
+save.addClass("save");
+save.id = "save-btn-" + i;
+
+var articleContain = $("<div>");
+articleContain.addClass("article-container");
+articleContain.append(linkHold);
+
+$("#article-listing").append(articleContain);
+
+console.log(link);
+
 
   });
 
-  // Log the result once cheerio analyzes each of its selected elements
-  console.log(result);
+
+
+
 });
 
 
 };
+
+
+
+
+//saving functionality
+
+$(".save").on("click", function(){
+
+var buttonId = this.id;
+console.log(buttonId);
+
+//get id of button, which is the same as the id of the div holding the link
+     IdValue = buttonId.slice(9);
+
+relevantArticleDiv = $("#link-hold-" + IdValue);
+
+var link = relevantArticleDiv.innerHtml();
+console.log(link);
+
+
+//userEmail must be defined for it to be used within the following api call
+
+
+
+//api call
+
+})

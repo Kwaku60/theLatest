@@ -7,7 +7,7 @@ var Schema = mongoose.Schema;
 // Make ArticlesSchema a Schema
 var ArticleSchema = new Schema({
 
-  name: {
+  link: {
     type: String,
     unique: true
   },

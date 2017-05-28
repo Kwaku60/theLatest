@@ -6,7 +6,7 @@ var articeController = require('../controllers/articleController'),
 
 
 
-//could alternatively do a router.get if this doesn't run
+//could alternatively do a router.get if this doesn't run, export it afterwards
 var router = express.Router();
 
 
@@ -30,11 +30,9 @@ app.get('/view', articleController.viewSaved);
 app.post('/comment', articleController.postComment);
 
 //delete a comment directly from the comments schema
-app.post('/deleteComment', articleController.removeComment);
+// app.post('/deleteComment', articleController.removeComment);
 
 //remove an article from the user's array of articles 
-app.get('/remove', articleController.removeArticle);
-
-module.exports = router;
+//app.get('/remove', articleController.removeArticle);
 
 }
