@@ -40,10 +40,25 @@ saveScrapedNews: function(req, res){
       };
     }
   });
-}
+},
 
 
+grabScrapedList: function(req,res){
 
+
+ Scraped.find({}, function(error, doc) {
+    // Send an error message to the browser
+    if (error) {
+      res.send(error);
+    }
+    // Or send the doc to the browser
+    else {
+      res.send(doc);
+    }
+  });
+
+
+},
 
 
 
@@ -86,7 +101,7 @@ $("#saved-articles").append(doc);
 
 
 
-}
+},
 
 
 
@@ -103,9 +118,76 @@ postComment: function(req,res){
 
 
 
+scrapeLatest: function(req,res){
 
 
 
+
+console.log("scraping");
+
+
+// Making a request call for reddit's "webdev" board. The page's HTML is saved as the callback's third argument
+request("https://www.reddit.com/r/webdev", function(error, response, html){ 
+
+  // Load the HTML into cheerio and save it to a variable
+  // '$' becomes a shorthand for cheerio's selector commands, much like jQuery's '$'
+  var $ = cheerio.load(html);
+
+  // An empty array to save the data that we'll scrape
+  var result = [];
+
+  // With cheerio, find each p-tag with the "title" class
+  // (i: iterator. element: the current element)
+  $("p.title").each(function(i, element) {
+
+    // Save the text of the element (this) in a "title" variable. In this example the element is "this"
+    var title = $(this).text();
+
+    // In the currently selected element, look at its child elements (i.e., its a-tags),
+    // then save the values for any "href" attributes that the child elements may have
+
+   // *** //the below is unique syntax to Cheerio. wrapping the element object (which is this) and selecting
+    var link = $(element).children().attr("href");
+
+    // Save these results in an object that we'll push into the result array we defined earlier
+   
+
+
+
+console.log(link);
+
+
+//you can pass in a variable or an object to new article   
+  var newScraped = new Scraped(link);
+
+// Save the new Article in the articles collection
+  newScraped.save(function(err, doc) {
+
+    if (err) {
+      res.send(err);
+    }
+
+    else {
+
+  res.send(doc);
+
+  };
+
+
+
+})
+
+
+})
+
+})
+
+}, 
+
+
+
+
+}
 
 
 // =======================
@@ -113,34 +195,36 @@ postComment: function(req,res){
 // =======================
 
 
-removeArticle: function(req,res){
+// removeArticle: function(req,res){
 
 
-// var _id = req.body.postId;
-//         Posts.remove({ _id }, function (err, doc){
-//             if (err) {
-//                 res.send('error');
-//             } else {
-//                 res.send('success');
-//             }
-//         });
+// // var _id = req.body.postId;
+// //         Posts.remove({ _id }, function (err, doc){
+// //             if (err) {
+// //                 res.send('error');
+// //             } else {
+// //                 res.send('success');
+// //             }
+// //         });
 
-},
-
-
+// },
 
 
 
-removeComment: function(req, res){
-        // var id = req.body.commentId;
-        // comments.remove({ id },
-        //     function(err, doc){
-        //     if (err) {
-        //         res.send('error');
-        //     } else {
-        //         res.send('success');
-        //     }
-        // });
-    },
 
-}
+
+// removeComment: function(req, res){
+//         // var id = req.body.commentId;
+//         // comments.remove({ id },
+//         //     function(err, doc){
+//         //     if (err) {
+//         //         res.send('error');
+//         //     } else {
+//         //         res.send('success');
+//         //     }
+//         // });
+//     }
+
+
+
+

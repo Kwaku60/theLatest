@@ -9,6 +9,10 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var flash    = require('connect-flash');
 var bodyParser = require("body-parser");
+// Snatches HTML from URLs
+var request = require("request");
+// Scrapes our HTML
+var cheerio = require("cheerio");
 
 // var configDB = require('./config/database.js');
 
@@ -27,13 +31,16 @@ require('./config/passport')(passport); // pass passport for configuration
 	// app.set('engine', 'html'); // set up ejs for templating
 	app.use(bodyParser.urlencoded({ extended: false }));
 	app.use(bodyParser.json());
-	app.use(express.static(__dirname + 'public'));
+	app.use(express.static("public"));
 
 	// required for passport
 	app.use(express.session({ secret: 'Kwaku' })); // session secret
 	app.use(passport.initialize());
 	app.use(passport.session()); // persistent login sessions
 	app.use(flash()); // use connect-flash for flash messages stored in session
+
+
+
 
 
 

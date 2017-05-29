@@ -1,7 +1,7 @@
 
 var path = require("path");
-var express = require('express'),
-var articeController = require('../controllers/articleController'),
+var express = require('express');
+var articleController = require('../controllers/articleController');
 
 
 
@@ -34,5 +34,35 @@ app.post('/comment', articleController.postComment);
 
 //remove an article from the user's array of articles 
 //app.get('/remove', articleController.removeArticle);
+
+
+//scrapes and stores data into Scrapes collection
+
+app.get("/scrape",articleController.scrapeLatest);
+
+
+
+
+app.get("/grabScrapedList", articleController.grabScrapedList);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

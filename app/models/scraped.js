@@ -5,7 +5,7 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 // Make ArticlesSchema a Schema
-var ArticleSchema = new Schema({
+var ScrapedSchema = new Schema({
 
   link: {
     type: String,
@@ -19,7 +19,8 @@ var ArticleSchema = new Schema({
   }]
 });
 
-var Article = mongoose.model("Article", ArticleSchema);
+// Save the Library model using the LibrarySchema
+var Scraped = mongoose.model("Scraped", ScrapedSchema);
 
-
-module.exports = Article;
+// Export the Library model
+module.exports = Scraped;
