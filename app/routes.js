@@ -53,6 +53,8 @@ module.exports = function(app, passport) {
 	// we will want this protected so you have to be logged in to visit
 	// we will use route middleware to verify this (the isLoggedIn function)
 	app.get('/profile', isLoggedIn, function(req, res) {
+
+   
 		res.sendfile(path.join(__dirname + '/../public/home.html'));
 
 	});
@@ -64,6 +66,23 @@ module.exports = function(app, passport) {
 		req.logout();
 		res.redirect('/');
 	});
+
+// Route for getting some data about our user to be used client side
+  // app.get("/user_data", function(req, res) {
+  //   if (!req.user) {
+  //     // The user is not logged in, send back an empty object
+  //     res.json({});
+  //   }
+  //   else {
+  //     // Otherwise send back the user's email and id
+     
+  //     res.json({
+  //       email: req.user.email});
+  //   }
+  // });
+
+
+
 };
 
 // route middleware to make sure

@@ -23,6 +23,8 @@ require('./config/passport')(passport); // pass passport for configuration
 
 
 
+
+
 	// set up our express application
 
 	app.use(express.cookieParser()); // read cookies (needed for auth)

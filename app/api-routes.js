@@ -42,7 +42,7 @@ app.get("/scrape",articleController.scrapeLatest);
 
 
 
-
+//grabs data from collection 
 app.get("/grabScrapedList", articleController.grabScrapedList);
 
 

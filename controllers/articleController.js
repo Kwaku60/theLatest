@@ -1,4 +1,16 @@
+
+var Article = require('../models/Article');
+ var Scraped = require('../models/Scraped');
+ var User = require('../models/user');
+// Snatches HTML from URLs
+var request = require("request");
+// Scrapes our HTML
+var cheerio = require("cheerio");
+
+
+
 module.exports = {
+
 
 
 
@@ -8,7 +20,7 @@ saveScrapedNews: function(req, res){
     //so this function can use them**  
 
 //you can pass in a variable or an object to new article   
-  var newArticle = new Article(link);
+  var newArticle = new Article({link: link});
 
 // Save the new Article in the articles collection
   newArticle.save(function(err, doc) {
@@ -63,15 +75,15 @@ grabScrapedList: function(req,res){
 
 
 //pass the userEmail in the params
-viewSaved: function(req, res){
+viewSaved: function(req, useremail, res){
 
 
     //**define "userEmail" variable first in button click, 
     //so this function can use them**  
 
-
+console.log(userEmail);
 //find the right user
-user.findOne(
+User.findOne(
 
 // query object
 {"local.email": userEmail })
@@ -91,10 +103,10 @@ user.findOne(
 
 //it's a doc for mongoDB. log it to see
         res.send(doc);
-console.log(doc);
 
-// append saved articles to page
-$("#saved-articles").append(doc);
+
+
+
 
     }
 })
@@ -158,7 +170,7 @@ console.log(link);
 
 
 //you can pass in a variable or an object to new article   
-  var newScraped = new Scraped(link);
+  var newScraped = new Scraped({link: link});
 
 // Save the new Article in the articles collection
   newScraped.save(function(err, doc) {

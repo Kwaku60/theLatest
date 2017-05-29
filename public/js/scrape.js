@@ -1,34 +1,62 @@
 
 
-// Dependencies:
+
+var userEmail="kwakuklausphoto@gmail.com";
+
 
 
 
 //function to scrape the latest and append to page. This will be linked to the onClick
 //of "#get-the-latest" button.
-var userEmail;
+// var userEmail;
+// $("#login").on("click", function(){
 
+
+
+
+// var userEmail = $("#email-login").val().trim();
+
+// return userEmail;
+
+// })
 
 
 $("#get-the-latest").on("click", function(){
 
 
+
+$.get("/scrape").then(function(data){
+
+
+  console.log("scraped");
+   grab(); 
+ 
+
+})
+
+function grab(){
+
+
  $.get("/grabScrapedList").then(function(data) {
 
-for(var i = 0; i++; i<12){
+  console.log("data grabbed");
+  console.log(data);
+
+for (var i = 0; i<12; i++){
 
 
-
+console.log("looping");
    //use the thumbnail api before appending this link 
-
+var link = data[i].link;
    var linkHold = $("<div>");
    linkHold.addClass("link-hold");
    linkHold.id = "link-hold-" + i;
    linkHold.append(link);
 var save =$("<button>");
-save.text = "Save me!";
+save.innerHtml = "Save me!";
 save.addClass("save");
 save.id = "save-btn-" + i;
+linkHold.append(save);
 
 var articleContain = $("<div>");
 articleContain.addClass("article-container");
@@ -50,6 +78,7 @@ $("#article-listing").append(articleContain);
 //end of api request
 });
 
+}
 //end of onClick
 });
 
@@ -98,7 +127,22 @@ console.log("saved!");
 
 $("#view-my-saved").on("click", function(){
 
+
+
+$.get('/view').then(function(data){
+
+  console.log(data);
+   console.log("viewing saved");
+})
+
+
+
+
+
   console.log(userEmail);
+
+
+
 
 });
 
